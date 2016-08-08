@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>gfx/logo.png</file>
+        <file>gfx/trash.png</file>
+        <file>gfx/settings.png</file>
+    </qresource>
+</RCC>

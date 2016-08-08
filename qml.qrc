@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TicTacTile.qml</file>
+        <file>TicTacMap.qml</file>
+        <file>TicTacStatus.qml</file>
+        <file>MiloSplashScreen.qml</file>
+        <file>TicTacBaseTile.qml</file>
+        <file>TicTacPlayerInfo.qml</file>
+    </qresource>
+</RCC>
