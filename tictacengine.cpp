@@ -71,6 +71,11 @@ int TicTacEngine::victory() const
     return this->_victory;
 }
 
+int TicTacEngine::currentPlayer() const
+{
+    return this->_currentPlayer;
+}
+
 void TicTacEngine::setFirstPlayerScore(int score)
 {
     this->_players[0]->setScore(score);
@@ -104,6 +109,7 @@ void TicTacEngine::mark(int place)
     {
         this->setActive(!this->_active);
         this->_board->clearMap();
+        this->nextTurn();
         return;
     }
 
@@ -127,8 +133,7 @@ void TicTacEngine::mark(int place)
             this->setVictory(0);
         }
 
-        // Change player
-        this->_currentPlayer = (this->_currentPlayer + 1) % this->_players.size();
+        this->nextTurn();
     }
 }
 
@@ -138,5 +143,19 @@ void TicTacEngine::resetPoints()
     {
         player->setScore(0);
         this->setVictory(-1);
+    }
+}
+
+void TicTacEngine::nextTurn()
+{
+    this->setCurrentPlayer((this->_currentPlayer + 1) % this->_players.size());
+}
+
+void TicTacEngine::setCurrentPlayer(int currentPlayer)
+{
+    if (this->_currentPlayer != currentPlayer)
+    {
+        this->_currentPlayer = currentPlayer;
+        emit this->currentPlayerChanged(currentPlayer);
     }
 }

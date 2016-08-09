@@ -27,6 +27,8 @@ class TicTacEngine : public QObject
     // Declare activity
     Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(int victory READ victory NOTIFY victoryChanged)
+    Q_PROPERTY(int currentPlayer READ currentPlayer
+               WRITE setCurrentPlayer NOTIFY currentPlayerChanged)
 
 public:
     explicit TicTacEngine(QObject *parent = 0);
@@ -42,6 +44,8 @@ public:
     bool active() const;
     int victory() const;
 
+    int currentPlayer() const;
+
 signals:
     void firstPlayerScoreChanged(int score);
     void secondPlayerScoreChanged(int score);
@@ -52,14 +56,20 @@ signals:
     void activeChanged(bool active);
     void victoryChanged(int victory);
 
+    void currentPlayerChanged(int playerId);
+
 public slots:
     void setFirstPlayerScore(int score);
     void setSecondPlayerScore(int score);
     void setActive(bool active);
     void setVictory(int victory);
+    void setCurrentPlayer(int currentPlayer);
 
     void mark(int place);
     void resetPoints();
+
+protected:
+    void nextTurn();
 
 private:
     int _currentPlayer;
