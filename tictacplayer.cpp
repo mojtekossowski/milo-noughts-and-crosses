@@ -1,10 +1,12 @@
 #include "tictacplayer.h"
 
-TicTacPlayer::TicTacPlayer(MarkTypes playerMarkType,
+TicTacPlayer::TicTacPlayer(QString name,
+                           MarkTypes playerMarkType,
                            QObject *parent)
     : QObject (parent)
     , _playerMarkType (playerMarkType)
     , _score (0)
+    , _name(name)
 {
 
 }
@@ -30,7 +32,11 @@ QString TicTacPlayer::name() const
 
 void TicTacPlayer::setName(const QString &name)
 {
-    this->_name = name;
+    if (this->_name != name)
+    {
+        this->_name = name;
+        emit this->nameChanged(name);
+    }
 }
 
 TicTacPlayer::MarkTypes TicTacPlayer::playerMarkType() const
@@ -40,7 +46,7 @@ TicTacPlayer::MarkTypes TicTacPlayer::playerMarkType() const
 
 void TicTacPlayer::increaseScore()
 {
-    this->setScore(this->_score++);
+    this->setScore(this->_score + 1);
 }
 
 void TicTacPlayer::setPlayerMarkType(const MarkTypes &playerMarkType)

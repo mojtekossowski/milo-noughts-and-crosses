@@ -9,6 +9,7 @@ class TicTacPlayer : public QObject
     Q_CLASSINFO ("Author", "Wojciech Ossowski")
     Q_ENUMS (MarkTypes)
     Q_PROPERTY(int score READ score WRITE setScore NOTIFY scoreChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 
 public:
     enum MarkTypes {
@@ -17,7 +18,8 @@ public:
         MT_Noughted = 2
     };
 
-    explicit TicTacPlayer(MarkTypes playerMarkType,
+    explicit TicTacPlayer(QString name,
+                          MarkTypes playerMarkType,
                           QObject *parent = 0);
 
     int score() const;
@@ -27,6 +29,7 @@ public:
 
 signals:
     void scoreChanged(int score);
+    void nameChanged(QString name);
 
 public slots:
     void setScore(int score);

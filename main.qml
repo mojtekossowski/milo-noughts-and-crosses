@@ -1,12 +1,14 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.0
 
 ApplicationWindow {
     id: mainWindow
-    visible: false
+    visible: true
     width: 360
     height: 450
+
+    property bool splashVisible: true
 
     minimumWidth: 360
     minimumHeight: 450
@@ -15,19 +17,34 @@ ApplicationWindow {
 
     MiloSplashScreen{
         id: splash
-        visible: true
-        onTimeout: mainWindow.visible = true
+        visible: mainWindow.splashVisible
+        anchors.fill: parent
+        onTimeout: mainWindow.splashVisible = false
     }
 
-    TicTacMap {
-        id: map
-        anchors.top: parent.top
-    }
+    SwipeView {
+        anchors.fill: parent
+        currentIndex: 1
+        TicTacSettings {
 
-    TicTacStatus {
-        anchors.top: map.bottom
-        onSettingsToggled: {
-            settings.visible = true
+        }
+
+        MainMenu{
+
+        }
+
+        Item {
+            TicTacMap {
+                id: map
+
+                anchors.top: mainWindow.top
+                height: 0.8*mainWindow.height
+            }
+
+            TicTacStatus {
+                anchors.top: map.bottom
+                height: 0.2*mainWindow.height
+            }
         }
     }
 }

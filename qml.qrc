@@ -7,5 +7,8 @@
         <file>MiloSplashScreen.qml</file>
         <file>TicTacBaseTile.qml</file>
         <file>TicTacPlayerInfo.qml</file>
+        <file>TicTacSettings.qml</file>
+        <file>MainMenu.qml</file>
+        <file>MessageNotifier.qml</file>
     </qresource>
 </RCC>

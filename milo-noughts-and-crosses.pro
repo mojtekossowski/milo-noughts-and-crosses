@@ -21,3 +21,6 @@ HEADERS += \
     tictacengine.h \
     tictacplayer.h \
     tictacboard.h
+
+DISTFILES += \
+    fireworks.js

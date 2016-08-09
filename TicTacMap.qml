@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: map
@@ -7,14 +8,26 @@ Rectangle {
     property int tileSize: Math.min (getSideLength(map.width),
                                      getSideLength(map.height))
 
+    MessageNotifier{
+        id: idleNotifier
+    }
+
     function getSideLength(side)
     {
         return (side - (TicTacBoard.gridSize + 1) * spacing) / TicTacBoard.gridSize;
     }
 
     width: parent.width
-    height: parent.height - 100
-    color: '#131919'
+    gradient: Gradient {
+        GradientStop {
+            position: 0.0
+            color: '#1b0909'
+        }
+        GradientStop {
+            position: 1.0
+            color: 'black'
+        }
+    }
 
     Grid {
         id: grid

@@ -3,19 +3,9 @@
 
 TicTacBoard::TicTacBoard(QObject *parent)
     : QAbstractListModel(parent)
-    , _gridSize(3)
+    , _gridSize(0)
 {
-    int modelSize = this->_gridSize * this->_gridSize;
-    for (int i = 0; i < modelSize; i++)
-    {
-        this->_marks << TicTacPlayer::MT_Empty;
-        this->_results << false;
-    }
-
-    // Fill map with new model
-    beginInsertRows(QModelIndex(), 0, this->_marks.size() - 1);
-    insertRows(0, this->_marks.size() - 1);
-    endInsertRows();
+    this->setGridSize(3);
 }
 
 int TicTacBoard::rowCount(const QModelIndex &/*parent*/) const
@@ -72,26 +62,29 @@ bool TicTacBoard::setData(const QModelIndex &index,
 
 bool TicTacBoard::checkWinner(QList<int> &winningFields)
 {
-    // Just for debug :3
+#ifndef QT_NO_DEBUG
+    // Display data in console
     for (int i = 0; i < this->_gridSize; i++)
     {
         qDebug () << this->_marks[i*this->_gridSize]
                   << this->_marks[i*this->_gridSize + 1]
                   << this->_marks[i*this->_gridSize + 2];
     }
+#endif
 
     // Check winning for rows (1,2,3) ...
-    this->checkSideCrosing(0, 1, this->_gridSize, winningFields);
+    this->checkSideCrosing(1, this->_gridSize, winningFields);
     if (!winningFields.isEmpty())
         return this->displayWinner(winningFields);
 
     // Check winning for columns (0, 3, 6) ...
-    this->checkSideCrosing(0, this->_gridSize, 1, winningFields);
+    this->checkSideCrosing(this->_gridSize, 1, winningFields);
     if (!winningFields.isEmpty())
         return this->displayWinner(winningFields);
 
     // Check first diagonal winning (0, 4, 8)
-    this->checkDiagonalCrossing(0, this->_gridSize + 1, winningFields);
+    this->checkDiagonalCrossing(0,
+                                this->_gridSize + 1, winningFields);
     if (!winningFields.isEmpty())
         return this->displayWinner(winningFields);
 
@@ -126,21 +119,52 @@ void TicTacBoard::clearMap()
     }
 }
 
-void TicTacBoard::checkSideCrosing(int beginning,
-                                   int rowBase,
+void TicTacBoard::setGridSize(int gridSize)
+{
+    if (this->_gridSize != gridSize)
+    {
+        this->_gridSize = gridSize;
+
+        if (!this->_marks.isEmpty())
+        {
+            this->beginRemoveRows(QModelIndex(), 0, this->_marks.size() - 1);
+            this->removeRows(0, this->_marks.size() - 1);
+            this->endRemoveRows();
+
+            this->_results.clear();
+            this->_marks.clear();
+        }
+
+        int modelSize = this->_gridSize * this->_gridSize;
+        for (int i = 0; i < modelSize; i++)
+        {
+            this->_marks << TicTacPlayer::MT_Empty;
+            this->_results << false;
+        }
+
+        // Fill map with new model
+        this->beginInsertRows(QModelIndex(), 0, this->_marks.size() - 1);
+        this->insertRows(0, this->_marks.size() - 1);
+        this->endInsertRows();
+
+        emit this->gridSizeChanged(gridSize);
+    }
+}
+
+void TicTacBoard::checkSideCrosing(int rowBase,
                                    int columnBase,
                                    QList<int> &winningFields) const
 {
     TicTacPlayer::MarkTypes possibleWinner;
     TicTacPlayer::MarkTypes regionWinner;
 
-    for (int i = beginning; i < this->_gridSize; i++)
+    for (int i = 0; i < this->_gridSize; i++)
     {
         winningFields.clear();
         regionWinner = TicTacPlayer::MT_Empty;
         possibleWinner = TicTacPlayer::MT_Empty;
 
-        for (int j = beginning; j < this->_gridSize; j++)
+        for (int j = 0; j < this->_gridSize; j++)
         {
             int index = i*rowBase + j*columnBase;
             regionWinner = this->_marks[index];
@@ -192,6 +216,11 @@ void TicTacBoard::checkDiagonalCrossing(int beginning,
         winningFields.clear();
 }
 
+//!
+//! \brief TicTacBoard::displayWinner
+//! \param winningFields list of winning fields
+//! \return true
+//!
 bool TicTacBoard::displayWinner(const QList<int> &winningFields)
 {
     for (int i = 0; i < winningFields.size(); i++)

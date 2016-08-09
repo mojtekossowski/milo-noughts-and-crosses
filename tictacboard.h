@@ -8,7 +8,7 @@ class TicTacBoard : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(int gridSize READ gridSize NOTIFY gridSizeChanged)
+    Q_PROPERTY(int gridSize READ gridSize WRITE setGridSize NOTIFY gridSizeChanged)
 
 public:
     explicit TicTacBoard(QObject *parent = 0);
@@ -34,10 +34,10 @@ signals:
 
 public slots:
     void clearMap();
+    void setGridSize(int gridSize);
 
 private:
-    void checkSideCrosing(int beginning,
-                          int rowBase,
+    void checkSideCrosing(int rowBase,
                           int columnBase,
                           QList<int> &winningFields) const;
 
