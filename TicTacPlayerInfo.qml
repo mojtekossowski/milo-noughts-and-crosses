@@ -7,6 +7,8 @@ Rectangle {
     property string playerName: ""
     property int score: 0
     property string gradientTo
+    property string baseGradient
+    property bool isActive
 
     width: parent.width / 2
     height: parent.height
@@ -22,6 +24,25 @@ Rectangle {
         }
     }
 
+    states: [
+        State {
+            name: 'active'
+            PropertyChanges {
+                target: player
+                gradientTo: baseGradient
+            }
+            when: isActive
+        },
+        State {
+            name: 'inactive'
+            PropertyChanges {
+                target: player
+                gradientTo: Qt.darker(baseGradient)
+            }
+            when: !isActive
+        }
+    ]
+
     Text {
         id: playerNameLabel
 
@@ -36,6 +57,7 @@ Rectangle {
 
         color: "#1f1f1f"
     }
+
     Text {
         id: playerScoreLabel
 

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "fireworks.js" as Fireworks
 
 Item {
     id: statusBar
@@ -11,7 +12,10 @@ Item {
         score: TicTacEngine.firstPlayerScore
 
         anchors.left: statusBar.left
-        gradientTo: '#FF9D80'
+
+        baseGradient: '#FF9D80'
+
+        isActive: Fireworks.isPlayerActive(TicTacEngine, 0)
     }
 
     TicTacPlayerInfo {
@@ -21,6 +25,9 @@ Item {
         score: TicTacEngine.secondPlayerScore
 
         anchors.right: statusBar.right
-        gradientTo: '#A6B7CC'
+
+        baseGradient: '#A6B7CC'
+
+        isActive: Fireworks.isPlayerActive(TicTacEngine, 1)
     }
 }

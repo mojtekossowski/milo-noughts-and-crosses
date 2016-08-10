@@ -8,5 +8,6 @@ Rectangle {
         anchors.centerIn: parent
 
         text: qsTr("Noughts\nand Crosses")
+
     }
 }

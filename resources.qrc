@@ -3,5 +3,7 @@
         <file>gfx/logo.png</file>
         <file>gfx/trash.png</file>
         <file>gfx/settings.png</file>
+        <file>gfx/cross.png</file>
+        <file>gfx/nought.png</file>
     </qresource>
 </RCC>

@@ -14,9 +14,10 @@ Rectangle {
     Text {
         id: name
         anchors.centerIn: parent
-        text: qsTr('Tap to continue')
-        font.pixelSize: 22
+        text: qsTr('Tap to play!')
+        font.pixelSize: messageNotifier.height / 3
     }
+
     MouseArea {
         onClicked: TicTacEngine.active = true
     }
@@ -40,14 +41,12 @@ Rectangle {
         }
     ]
 
-    transitions: [
-        Transition {
-            NumberAnimation {
-                target: messageNotifier
-                property: 'y'
-                duration: 200
-                easing.type: Easing.InOutQuad
-            }
+    transitions: Transition {
+        NumberAnimation {
+            target: messageNotifier
+            property: 'y'
+            duration: 200
+            easing.type: Easing.InOutQuad
         }
-    ]
+    }
 }

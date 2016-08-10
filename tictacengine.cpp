@@ -32,8 +32,8 @@ TicTacEngine::TicTacEngine(QObject *parent)
                   this,     SIGNAL(secondPlayerNameChanged(QString)));
 
     // Push players into players list
-    this->_players << player1;
-    this->_players << player2;
+    this->_players << player1
+                   << player2;
 }
 
 TicTacBoard *TicTacEngine::board() const
@@ -109,7 +109,6 @@ void TicTacEngine::mark(int place)
     {
         this->setActive(!this->_active);
         this->_board->clearMap();
-        this->nextTurn();
         return;
     }
 

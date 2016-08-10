@@ -1,7 +1,9 @@
 import QtQuick 2.0
+import "fireworks.js" as Fireworks
 
 Flipable {
     id: flipable
+
     property int sideLenght: 30
     property int owner: 0
     property bool winningfield: false
@@ -9,39 +11,18 @@ Flipable {
     width: sideLenght
     height: sideLenght
 
-    function getTileColor (){
-        if (owner === 1){
-            return winningfield ? '#366399' : '#A6B7CC';
-        }
-        else if (owner === 2){
-            return winningfield ? '#CC4A3D' : '#FF9D80';
-        }
-        else{
-            return '#5F5F5F'
-        }
-    }
-
-    function getImage (){
-        if (owner === 1){
-            return 'qrc:/img/gfx/settings.png';
-        }
-        else if (owner === 2){
-            return 'qrc:/img/gfx/trash.png';
-        }
-        else {
-            return '';
-        }
-    }
-
     front: TicTacBaseTile{
         sideLength: flipable.sideLenght
+        gradientColor: Fireworks.getTileColor(flipable.owner,
+                                              flipable.winningfield)
     }
 
     back: TicTacBaseTile{
         sideLength: flipable.sideLenght
-        color: getTileColor()
+        gradientColor: Fireworks.getTileColor(flipable.owner,
+                                              flipable.winningfield)
         Image{
-            source: getImage()
+            source: Fireworks.getImage(flipable.owner)
             anchors.fill: parent
         }
     }

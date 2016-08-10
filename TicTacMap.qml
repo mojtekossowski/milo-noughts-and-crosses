@@ -20,17 +20,18 @@ Rectangle {
     width: parent.width
     gradient: Gradient {
         GradientStop {
-            position: 0.0
-            color: '#1b0909'
+            position: 0.00;
+            color: "#293c04";
         }
         GradientStop {
-            position: 1.0
-            color: 'black'
+            position: 1.00;
+            color: "#000000";
         }
     }
 
     Grid {
         id: grid
+
         anchors.centerIn: parent
         rows: TicTacBoard.gridSize
         columns: TicTacBoard.gridSize
@@ -52,5 +53,9 @@ Rectangle {
                 }
             }
         }
+    }
+
+    WinnerNotify {
+        id: winnerNotify
     }
 }

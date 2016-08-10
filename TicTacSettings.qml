@@ -1,5 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.0
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: options
@@ -7,7 +8,7 @@ Rectangle {
     property int fontSize: 22
 
     Item {
-        anchors.verticalCenter: options.verticalCenter
+        anchors.verticalCenter: options.horizontalCenter
 
         Text {
             id: gridSizeLabel
@@ -15,10 +16,9 @@ Rectangle {
             text: qsTr('')
             font.pixelSize: fontSize
         }
+
         SpinBox{
             value: TicTacBoard.gridSize
-            minimumValue: 3
-            maximumValue: 9
             onValueChanged: TicTacBoard.gridSize = value
         }
     }
