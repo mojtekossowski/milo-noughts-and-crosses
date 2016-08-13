@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("TicTacEngine", &ticTacEngine);
     engine.rootContext()->setContextProperty("TicTacBoard", board);
+    engine.rootContext()->setContextProperty("FirstPlayer", ticTacEngine.firstPlayer());
+    engine.rootContext()->setContextProperty("SecondPlayer", ticTacEngine.secondPlayer());
 
     // Load main QML
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

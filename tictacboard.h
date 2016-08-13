@@ -6,8 +6,7 @@
 
 class TicTacBoard : public QAbstractListModel
 {
-    Q_OBJECT
-
+    Q_OBJECT // clang static code analyser displays a lot of mess here
     Q_PROPERTY(int gridSize READ gridSize WRITE setGridSize NOTIFY gridSizeChanged)
 
 public:
@@ -22,7 +21,7 @@ public:
     // QAbstractItemModel interface
     bool setData(const QModelIndex &index,
                  const QVariant &value,
-                 int role);
+                 int role) override;
 
     int gridSize () const {return this->_gridSize;}
 

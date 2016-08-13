@@ -11,6 +11,11 @@ TicTacPlayer::TicTacPlayer(QString name,
 
 }
 
+void TicTacPlayer::increaseScore()
+{
+    this->setScore(this->_score + 1);
+}
+
 int TicTacPlayer::score() const
 {
     return this->_score;
@@ -44,13 +49,12 @@ TicTacPlayer::MarkTypes TicTacPlayer::playerMarkType() const
     return this->_playerMarkType;
 }
 
-void TicTacPlayer::increaseScore()
+void TicTacPlayer::setPlayerMarkType(MarkTypes playerMarkType)
 {
-    this->setScore(this->_score + 1);
-}
-
-void TicTacPlayer::setPlayerMarkType(const MarkTypes &playerMarkType)
-{
-    this->_playerMarkType = playerMarkType;
+    if (this->_playerMarkType != playerMarkType)
+    {
+        this->_playerMarkType = playerMarkType;
+        emit this->playerMarkTypeChanged(playerMarkType);
+    }
 }
 

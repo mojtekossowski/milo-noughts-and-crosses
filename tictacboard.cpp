@@ -36,7 +36,7 @@ bool TicTacBoard::setData(const QModelIndex &index,
     if (role == Qt::EditRole || role == Qt::DisplayRole)
     {
         bool ok = false;
-        TicTacPlayer::MarkTypes mark = (TicTacPlayer::MarkTypes) value.toInt(&ok);
+        TicTacPlayer::MarkTypes mark = static_cast<TicTacPlayer::MarkTypes> (value.toInt(&ok));
 
         if (ok)
         {
@@ -196,7 +196,9 @@ void TicTacBoard::checkDiagonalCrossing(int beginning,
     TicTacPlayer::MarkTypes possibleWinner = TicTacPlayer::MT_Empty;
     TicTacPlayer::MarkTypes regionWinner = TicTacPlayer::MT_Empty;
 
-    for (int i = beginning; i < this->_marks.size(); i+= increment)
+    for (int i = beginning, ind = 0;
+         ind < this->_gridSize;
+         i+= increment, ind++)
     {
         regionWinner = this->_marks[i];
 

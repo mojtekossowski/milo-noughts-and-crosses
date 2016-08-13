@@ -7,17 +7,22 @@ Rectangle {
 
     property int fontSize: 22
 
-    Item {
-        anchors.verticalCenter: options.horizontalCenter
+    ListView{
+        ListElement {
 
+        }
+    }
+
+    Item {
         Text {
             id: gridSizeLabel
 
-            text: qsTr('')
+            text: qsTr('Game grid size: ')
             font.pixelSize: fontSize
         }
 
         SpinBox{
+            anchors.left: gridSizeLabel.right
             value: TicTacBoard.gridSize
             onValueChanged: TicTacBoard.gridSize = value
         }

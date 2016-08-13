@@ -6,28 +6,24 @@ Item {
     width: parent.width
 
     TicTacPlayerInfo {
-        id: firstPlayerInfo
-
-        playerName: TicTacEngine.firstPlayerName
-        score: TicTacEngine.firstPlayerScore
+        playerName: FirstPlayer.name
+        score: FirstPlayer.score
 
         anchors.left: statusBar.left
 
         baseGradient: '#FF9D80'
 
-        isActive: Fireworks.isPlayerActive(TicTacEngine, 0)
+        isActive: Fireworks.isPlayerActive(TicTacEngine, FirstPlayer.playerMarkType)
     }
 
     TicTacPlayerInfo {
-        id: secondPlayerInfo
-
-        playerName: TicTacEngine.secondPlayerName
-        score: TicTacEngine.secondPlayerScore
+        playerName: SecondPlayer.name
+        score: SecondPlayer.score
 
         anchors.right: statusBar.right
 
         baseGradient: '#A6B7CC'
 
-        isActive: Fireworks.isPlayerActive(TicTacEngine, 1)
+        isActive: Fireworks.isPlayerActive(TicTacEngine, SecondPlayer.playerMarkType)
     }
 }

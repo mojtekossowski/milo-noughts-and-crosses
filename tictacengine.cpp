@@ -14,26 +14,8 @@ TicTacEngine::TicTacEngine(QObject *parent)
                   this,             SLOT(resetPoints()));
 
     // Create players and assign signal forwarding for score changes
-    auto player1 = new TicTacPlayer("Noughts", TicTacPlayer::MT_Noughted, this);
-
-    this->connect(player1,  SIGNAL(scoreChanged(int)),
-                  this,     SIGNAL(firstPlayerScoreChanged(int)));
-
-    this->connect(player1,  SIGNAL(nameChanged(QString)),
-                  this,     SIGNAL(firstPlayerNameChanged(QString)));
-
-
-    auto player2 = new TicTacPlayer("Crosses", TicTacPlayer::MT_Crossed, this);
-
-    this->connect(player2,  SIGNAL(scoreChanged(int)),
-                  this,     SIGNAL(secondPlayerScoreChanged(int)));
-
-    this->connect(player2,  SIGNAL(nameChanged(QString)),
-                  this,     SIGNAL(secondPlayerNameChanged(QString)));
-
-    // Push players into players list
-    this->_players << player1
-                   << player2;
+    this->_players << new TicTacPlayer("Noughts", TicTacPlayer::MT_Noughted, this)
+                   << new TicTacPlayer("Crosses", TicTacPlayer::MT_Crossed, this);
 }
 
 TicTacBoard *TicTacEngine::board() const
@@ -41,49 +23,29 @@ TicTacBoard *TicTacEngine::board() const
     return this->_board;
 }
 
-int TicTacEngine::firstPlayerScore() const
-{
-    return this->_players[0]->score();
-}
-
-int TicTacEngine::secondPlayerScore() const
-{
-    return this->_players[1]->score();
-}
-
-QString TicTacEngine::firstPlayerName() const
-{
-    return this->_players[0]->name();
-}
-
-QString TicTacEngine::secondPlayerName() const
-{
-    return this->_players[1]->name();
-}
-
 bool TicTacEngine::active() const
 {
     return this->_active;
 }
 
-int TicTacEngine::victory() const
+TicTacPlayer::MarkTypes TicTacEngine::victory() const
 {
     return this->_victory;
 }
 
-int TicTacEngine::currentPlayer() const
+TicTacPlayer::MarkTypes TicTacEngine::currentPlayer() const
 {
-    return this->_currentPlayer;
+    return this->_players.at(this->_currentPlayer)->playerMarkType();
 }
 
-void TicTacEngine::setFirstPlayerScore(int score)
+TicTacPlayer *TicTacEngine::firstPlayer()
 {
-    this->_players[0]->setScore(score);
+    return this->_players[0];
 }
 
-void TicTacEngine::setSecondPlayerScore(int score)
+TicTacPlayer *TicTacEngine::secondPlayer()
 {
-    this->_players[1]->setScore(score);
+    return this->_players[1];
 }
 
 void TicTacEngine::setActive(bool active)
@@ -92,7 +54,7 @@ void TicTacEngine::setActive(bool active)
     emit this->activeChanged(active);
 }
 
-void TicTacEngine::setVictory(int victory)
+void TicTacEngine::setVictory(TicTacPlayer::MarkTypes victory)
 {
     this->_victory = victory;
     emit this->victoryChanged(victory);
@@ -102,9 +64,9 @@ void TicTacEngine::setVictory(int victory)
 
 void TicTacEngine::mark(int place)
 {
-    // An 'active' flag is used to stop/pause the game
-    // before user's mark action. It's necessary to
-    // notify after win/draw
+    // An 'active' flag is used to stop/pause
+    // the game before user's mark action.
+    // It's necessary to notify when win/draw occurs
     if (!this->_active)
     {
         this->setActive(!this->_active);
@@ -129,10 +91,10 @@ void TicTacEngine::mark(int place)
         }
         else if (this->_board->checkDraw())
         {
-            this->setVictory(0);
+            this->setVictory(TicTacPlayer::MT_Draw);
         }
 
-        this->nextTurn();
+        this->setCurrentPlayer((this->_currentPlayer + 1) % this->_players.size());
     }
 }
 
@@ -141,13 +103,8 @@ void TicTacEngine::resetPoints()
     foreach (auto player, this->_players)
     {
         player->setScore(0);
-        this->setVictory(-1);
+        this->setVictory(TicTacPlayer::MT_Empty);
     }
-}
-
-void TicTacEngine::nextTurn()
-{
-    this->setCurrentPlayer((this->_currentPlayer + 1) % this->_players.size());
 }
 
 void TicTacEngine::setCurrentPlayer(int currentPlayer)

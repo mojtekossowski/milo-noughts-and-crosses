@@ -8,7 +8,7 @@ Rectangle {
     property int score: 0
     property string gradientTo
     property string baseGradient
-    property bool isActive
+    property bool isActive: false
 
     width: parent.width / 2
     height: parent.height
