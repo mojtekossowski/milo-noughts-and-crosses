@@ -1,18 +1,33 @@
 #include <QDebug>
 #include "tictacboard.h"
 
+//!
+//! \brief TicTacBoard::TicTacBoard
+//! \details Constructs TicTacBoard
+//! \param parent
+//!
 TicTacBoard::TicTacBoard(QObject *parent)
     : QAbstractListModel(parent)
-    , _gridSize(0)
+    , _gridSize(0) // to handle grid size change
 {
     this->setGridSize(3);
 }
 
+//!
+//! \brief TicTacBoard::rowCount
+//! \return
+//!
 int TicTacBoard::rowCount(const QModelIndex &/*parent*/) const
 {
     return this->_marks.size();
 }
 
+//!
+//! \brief TicTacBoard::data
+//! \param index - 0 -> GridSize**2
+//! \param role - Winner (Decoration), Mark (Edit), clear (Display)
+//! \return
+//!
 QVariant TicTacBoard::data(const QModelIndex &index,
                            int role) const
 {
@@ -26,6 +41,13 @@ QVariant TicTacBoard::data(const QModelIndex &index,
         return QVariant();
 }
 
+//!
+//! \brief TicTacBoard::setData
+//! \param index
+//! \param value
+//! \param role - Winner (Decoration), Mark (Edit), Clear (Display)
+//! \return
+//!
 bool TicTacBoard::setData(const QModelIndex &index,
                           const QVariant &value,
                           int role)
@@ -33,6 +55,7 @@ bool TicTacBoard::setData(const QModelIndex &index,
     if (!index.isValid())
         return false;
 
+    // - Display role for clearing all data.
     if (role == Qt::EditRole || role == Qt::DisplayRole)
     {
         bool ok = false;
@@ -50,6 +73,7 @@ bool TicTacBoard::setData(const QModelIndex &index,
             return true;
         }
     }
+    // Decoration role - to handle winning fields
     else if (role == Qt::DecorationRole)
     {
         this->_results[index.row()] = value.toBool();
@@ -57,21 +81,18 @@ bool TicTacBoard::setData(const QModelIndex &index,
         return true;
     }
 
+    // Data not changed
     return false;
 }
 
+//!
+//! \brief TicTacBoard::checkWinner
+//! \details Checks all winnings combinations
+//! \param winningFields
+//! \return
+//!
 bool TicTacBoard::checkWinner(QList<int> &winningFields)
 {
-#ifndef QT_NO_DEBUG
-    // Display data in console
-    for (int i = 0; i < this->_gridSize; i++)
-    {
-        qDebug () << this->_marks[i*this->_gridSize]
-                  << this->_marks[i*this->_gridSize + 1]
-                  << this->_marks[i*this->_gridSize + 2];
-    }
-#endif
-
     // Check winning for rows (1,2,3) ...
     this->checkSideCrosing(1, this->_gridSize, winningFields);
     if (!winningFields.isEmpty())
@@ -97,6 +118,11 @@ bool TicTacBoard::checkWinner(QList<int> &winningFields)
     return false;
 }
 
+//!
+//! \brief TicTacBoard::checkDraw
+//! \details Checks if all fields were signed
+//! \return
+//!
 bool TicTacBoard::checkDraw() const
 {
     for (int i = 0; i < this->_marks.size(); i++)
@@ -109,6 +135,10 @@ bool TicTacBoard::checkDraw() const
     return true;
 }
 
+//!
+//! \brief TicTacBoard::clearMap
+//! \details Clears map
+//! s
 void TicTacBoard::clearMap()
 {
     // Set default data
@@ -119,6 +149,11 @@ void TicTacBoard::clearMap()
     }
 }
 
+//!
+//! \brief TicTacBoard::setGridSize
+//! \details Sets new grid size
+//! \param gridSize
+//!
 void TicTacBoard::setGridSize(int gridSize)
 {
     if (this->_gridSize != gridSize)
@@ -151,6 +186,12 @@ void TicTacBoard::setGridSize(int gridSize)
     }
 }
 
+//!
+//! \brief TicTacBoard::checkSideCrosing
+//! \param rowBase - Base indicator for rows
+//! \param columnBase - Base indicator for columns
+//! \param winningFields - List of winning fields
+//!
 void TicTacBoard::checkSideCrosing(int rowBase,
                                    int columnBase,
                                    QList<int> &winningFields) const
@@ -189,6 +230,12 @@ void TicTacBoard::checkSideCrosing(int rowBase,
         winningFields.clear();
 }
 
+//!
+//! \brief TicTacBoard::checkDiagonalCrossing
+//! \param beginning - The first field
+//! \param increment - Index to be incremented
+//! \param winningFields - List of winning fields
+//!
 void TicTacBoard::checkDiagonalCrossing(int beginning,
                                         int increment,
                                         QList<int> &winningFields) const
@@ -196,9 +243,9 @@ void TicTacBoard::checkDiagonalCrossing(int beginning,
     TicTacPlayer::MarkTypes possibleWinner = TicTacPlayer::MT_Empty;
     TicTacPlayer::MarkTypes regionWinner = TicTacPlayer::MT_Empty;
 
-    for (int i = beginning, ind = 0;
-         ind < this->_gridSize;
-         i+= increment, ind++)
+    for (int i = beginning, iterator = 0;
+         iterator < this->_gridSize;
+         i+= increment, iterator++)
     {
         regionWinner = this->_marks[i];
 

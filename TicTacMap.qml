@@ -12,27 +12,21 @@ Rectangle {
         id: idleNotifier
     }
 
+    color: 'transparent'
+
     function getSideLength(side)
     {
         return (side - (TicTacBoard.gridSize + 1) * spacing) / TicTacBoard.gridSize;
     }
 
     width: parent.width
-    gradient: Gradient {
-        GradientStop {
-            position: 0.00;
-            color: "#293c04";
-        }
-        GradientStop {
-            position: 1.00;
-            color: "#000000";
-        }
-    }
 
     Grid {
         id: grid
 
+        // All data stored in List model - a 1Dimentional flat list
         anchors.centerIn: parent
+        // Grid Size is can be changed dinamically
         rows: TicTacBoard.gridSize
         columns: TicTacBoard.gridSize
         spacing: map.spacing
@@ -53,9 +47,5 @@ Rectangle {
                 }
             }
         }
-    }
-
-    WinnerNotify {
-        id: winnerNotify
     }
 }

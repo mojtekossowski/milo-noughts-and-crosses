@@ -5,13 +5,23 @@ import QtQuick.Controls 2.0
 ApplicationWindow {
     id: mainWindow
     visible: true
+
+    minimumWidth: 360
+    minimumHeight: 450
     width: 360
     height: 450
 
     property bool splashVisible: true
-
-    minimumWidth: 360
-    minimumHeight: 450
+    property Gradient mainGradient: Gradient {
+        GradientStop {
+            position: 0.00;
+            color: '#21361A';
+        }
+        GradientStop {
+            position: 0.8;
+            color: "#000000";
+        }
+    }
 
     title: qsTr('Milo - Noughts and Crosses')
 
@@ -27,17 +37,18 @@ ApplicationWindow {
         currentIndex: 1
 
         TicTacSettings {
-
+            gradient: mainWindow.mainGradient
         }
 
         MainMenu{
-
+            gradient: mainWindow.mainGradient
         }
 
-        Item {
+        Rectangle {
+            gradient: mainWindow.mainGradient
+
             TicTacMap {
                 id: map
-
                 anchors.top: mainWindow.top
                 height: 0.8*mainWindow.height
             }

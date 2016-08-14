@@ -10,7 +10,6 @@
         <file>TicTacSettings.qml</file>
         <file>MainMenu.qml</file>
         <file>MessageNotifier.qml</file>
-        <file>WinnerNotify.qml</file>
         <file>fireworks.js</file>
     </qresource>
 </RCC>

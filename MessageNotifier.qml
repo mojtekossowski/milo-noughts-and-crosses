@@ -1,5 +1,7 @@
 import QtQuick 2.0
+import "fireworks.js" as Fireworks
 
+// Winner notify
 Rectangle {
     id: messageNotifier
 
@@ -14,8 +16,22 @@ Rectangle {
     Text {
         id: name
         anchors.centerIn: parent
-        text: qsTr('Tap to play!')
+        text: Fireworks.getWinnerInfo(TicTacEngine.victory,
+                                      FirstPlayer,
+                                      SecondPlayer)
+
         font.pixelSize: messageNotifier.height / 3
+    }
+
+    Text {
+        id: tapToPlay
+        anchors.top: name.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: TicTacEngine.victory !== 0
+
+        text: qsTr('Tap to play!')
+
+        font.pixelSize: messageNotifier.height / 6
     }
 
     MouseArea {

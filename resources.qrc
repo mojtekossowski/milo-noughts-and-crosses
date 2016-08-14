@@ -5,5 +5,9 @@
         <file>gfx/settings.png</file>
         <file>gfx/cross.png</file>
         <file>gfx/nought.png</file>
+        <file>gfx/arrow.png</file>
+        <file>gfx/game.png</file>
+        <file>gfx/options.png</file>
+        <file>gfx/title.png</file>
     </qresource>
 </RCC>

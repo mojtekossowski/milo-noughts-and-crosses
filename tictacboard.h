@@ -4,6 +4,11 @@
 #include <QAbstractListModel>
 #include "tictacplayer.h"
 
+//!
+//! \brief The TicTacBoard class
+//! Map of Noughts and Crossings - all necesasry data stored in 1d List
+//! Access to element: cols/GridSize + rows%GridSize
+//!
 class TicTacBoard : public QAbstractListModel
 {
     Q_OBJECT // clang static code analyser displays a lot of mess here
@@ -48,8 +53,8 @@ private:
 
 private:
     int _gridSize;
-    QList <bool> _results;
-    QList <TicTacPlayer::MarkTypes> _marks;
+    QList <bool> _results; // Decoration role
+    QList <TicTacPlayer::MarkTypes> _marks; // Display / edit role
 };
 
 #endif // TICTACBOARD_H

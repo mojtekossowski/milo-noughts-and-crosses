@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+// Represents base map tile objects
 Rectangle {
     id: tile
 

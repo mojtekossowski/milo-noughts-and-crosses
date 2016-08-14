@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.2
 
+// The Milo splash screen
 Rectangle {
     id: splash
 

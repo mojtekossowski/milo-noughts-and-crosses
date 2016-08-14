@@ -1,5 +1,6 @@
 #include "tictacplayer.h"
 
+
 TicTacPlayer::TicTacPlayer(QString name,
                            MarkTypes playerMarkType,
                            QObject *parent)

@@ -1,6 +1,14 @@
 # Noughts and Crosses
 This repository contains a QML-based Noughts-and-Crosses game for Milo Solutions
 
+## Menu navigation
+Swipe right/left to open game board or settings.
+
+## Available Settings
+* Player names
+* Grid size
+* Clean
+
 ## Requirements
 * Qt 5.7 or newer (Used QtQuickControls v 2.0)
 * C++11 compiler
